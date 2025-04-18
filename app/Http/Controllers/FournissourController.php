@@ -13,15 +13,18 @@ class FournissourController extends Controller
     public function index()
     {
         $fournisseurs = Fournisseur::all();
-        return view('fournisseur',compact('fournisseurs'));
+        return view('fournisseur', compact('fournisseurs'));
     }
+    
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        //
+    {   
+        $fournisseurs = Fournisseur::all();
+        return view('fournisseur',compact('fournisseurs'));
     }
 
     /**
@@ -29,8 +32,41 @@ class FournissourController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->input('action') === 'ajouter') {
+            // Validation
+            $request->validate([
+                'nom' => 'required|string|max:255',
+                'ice' => 'required|string|max:255|unique:fournisseurs',
+            ]);
+    
+            // Store new fournisseur
+            Fournisseur::create([
+                'nom' => $request->input('nom'),
+                'ice' => $request->input('ice'),
+            ]);
+    
+            return redirect()->route('fournisseur.create')->with('success', 'Fournisseur ajouté avec succès.');
+        }
+    
+        if ($request->input('action') === 'rechercher') {
+            $query = Fournisseur::query();
+    
+            if ($request->filled('nom')) {
+                $query->where('nom', 'like', '%' . $request->nom . '%');
+            }
+    
+            if ($request->filled('ice')) {
+                $query->where('ice', 'like', '%' . $request->ice . '%');
+            }
+    
+            $fournisseurs = $query->get();
+    
+            return view('fournisseur', compact('fournisseurs'));
+        }
+    
+        return redirect()->route('fournisseur.index');
     }
+    
 
     /**
      * Display the specified resource.

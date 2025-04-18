@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('marches', function (Blueprint $table) {
+        Schema::create('factureautorises', function (Blueprint $table) {
             $table->id();
-            $table->string('marche_number');
-            $table->text('object');
-            $table->string('tutilier')->nullable();
-            $table->integer('payment_delay')->nullable();
-            $table->timestamps(); 
+            $table->integer('numero_facture');
+            $table->string('scan_facture');
+            $table->integer('autoristaion_num');
+            $table->string('motif');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('marches');
+        Schema::dropIfExists('factureautorises');
     }
 };
+
+?>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Marche;
 use Illuminate\Http\Request;
-
 class MarcheController extends Controller
 {
     /**
@@ -19,15 +19,22 @@ class MarcheController extends Controller
      */
     public function create()
     {
-        //
+        $marches = Marche::all();
+        return view('marche.create', compact('marches'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'marche_number' => 'required|string|max:255',
+            'object' => 'required|string|max:1000',
+            'tutilier' => 'required|string|max:255',
+            'payment_delay' => 'required|integer',
+        ]);
+
+        Marche::create($validate);
+
+        return redirect()->route('marche.create')->with('success', 'Marché ajouté avec succès.');
     }
 
     /**

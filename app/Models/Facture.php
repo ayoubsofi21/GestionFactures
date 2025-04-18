@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Fournisseur;
+use App\Models\Marche;
 
 class Facture extends Model
 {
@@ -32,4 +33,8 @@ class Facture extends Model
     {
         return $this->belongsTo(Fournisseur::class);
     }    
+    public function marche()
+    {
+        return $this->belongsTo(Marche::class);
+    }
 }

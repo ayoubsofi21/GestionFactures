@@ -1,18 +1,27 @@
 @extends('layouts.master')
+
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gestion des Factures</title>
-</head>
-<body style="  background-image: url('{{ asset('images/téléchargement.png') }}');
-    background-size: cover;
-    background-position: center;
-    margin: 0;
-    min-height: 100vh;">
-</body>
-</html>
+    <head>
+        <style>
+            .page-content {
+                /* background-image: url('{{ asset('assets/images/file.svg') }}'); */
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                max-height:100vh;
+    
+            }
+           
+        </style>
+    </head>
+    <body>
+        <div class="page-content">
+                 <img   src="{{ asset('assets/images/file.svg') }}" alt="">
+        </div>
+    </body>
+    
 @endsection
+       
+
+
+        

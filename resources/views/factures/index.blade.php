@@ -31,6 +31,17 @@
               document.getElementById('pdfViewer').src = pdfUrl;
             }
           </script>
+          {{-- rafraîchir la page --}}
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const refreshButton = document.querySelector('.btn-refresh');
+                
+                refreshButton.addEventListener('click', function () {
+                    location.reload();  // This will reload the page
+                });
+            });
+        </script>
+        
           
     </head>
     <body>
@@ -55,8 +66,9 @@
         </thead>
         <tbody>
             <!-- Example row -->
-            <tr>
+            
                 @foreach($factures as $facture)
+                <tr>
                     <td>{{$facture->date_reception_facture}}</td>
                     <td>{{$facture->date_facture}}</td>
                     <td>{{$facture->fournisseur->nom}}</td>
@@ -66,22 +78,26 @@
                     <td>{{$facture->entite}}</td>
                     <td>{{$facture->delai}}</td>
                     <td> 
-                        <a href="#" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="" 
-                            onclick="openPDF('{{ asset('storage/' . $facture->scan_facture) }}')">
+                        {{-- <a href="{{ asset('storage/' . $facture->scan_facture) }}" 
+                            target="_blank" 
+                            class="btn btn-link">
                             {{ $facture->scan_facture }}
+                         </a> --}}
+                         <a href="{{ asset('storage/' . $facture->scan_facture) }}" target="_blank" class="btn btn-sm ">
+                            📄 Voir
                         </a>
+                         
                     </td>
+                </tr>
                 @endforeach
-            </tr>
+           
             <!-- You can duplicate or generate rows dynamically with a backend -->
         </tbody>
         </table>
     </div>
 
     <div class="text-end">
-        <button class="btn btn-primary btn-refresh">🔄 Rafraîchir</button>
+        <button type="button" class="btn btn-primary btn-refresh">🔄 Rafraîchir</button>
     </div>
     </div>
 

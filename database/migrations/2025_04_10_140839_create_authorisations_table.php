@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('authorisations', function (Blueprint $table) {
             $table->id();
+            $table->integer('numero_facture');
+            $table->string('scan_facture');
             $table->timestamps();
         });
     }
