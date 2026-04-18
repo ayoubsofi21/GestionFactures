@@ -12,7 +12,6 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Directeur',
             'email' => 'ayoubsofi@gmail.com',
-            'password' => Hash::make('12344321'), // or just 'motdepasse' if you're using 'hashed' cast in User model
             'user_type' => 'Directeur',
         ]);
     }
