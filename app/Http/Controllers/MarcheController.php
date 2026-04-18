@@ -11,7 +11,8 @@ class MarcheController extends Controller
      */
     public function index()
     {
-        //
+        $marchefactures = Marche::all();
+        return view('factures.create', compact('marchefactures'));
     }
 
     /**
@@ -22,6 +23,8 @@ class MarcheController extends Controller
         $marches = Marche::all();
         return view('marche.create', compact('marches'));
     }
+    
+    
 
     public function store(Request $request)
     {

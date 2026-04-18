@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Facture;
@@ -16,63 +14,43 @@ class ConsultController extends Controller
             $query->where('entite', $request->entite);
         }
 
-        // Filter by Date Emission (you can customize this)
-        if ($request->filled('recherche') && $request->recherche === 'date_emission') {
-            $query->orderBy('date_facture', 'desc');
+        // Filter by search type and value
+        if ($request->filled('recherche') && $request->filled('valeur')) {
+            switch ($request->recherche) {
+                case 'date_emission':
+                    $query->whereDate('date_facture', $request->valeur);
+                    break;
+                // Add more cases here
+            }
         }
 
         $factures = $query->get();
 
-        return view('consultation', [
-            'factures' => $factures,
+        // Split factures
+        $factures_normales = $factures->filter(function ($facture) {
+            return $facture->payment_delay <= 60;
+        });
+
+        $factures_hors_delai = $factures->filter(function ($facture) {
+            return $facture->payment_delay > 60;
+        });
+
+        return view('consultation.create', [
+            'factures' => $factures_normales,
+            'factures_hors_delai' => $factures_hors_delai,
             'filters' => $request->all()
         ]);
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        // return view('consultation.create', compact('factures'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function facturesHorsDelai()
     {
-        //
-    }
+        $factures = Facture::with(['fournisseur', 'marche'])
+            ->get()
+            ->filter(function ($facture) {
+                return $facture->payment_delay > 60;
+            });
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('consultation.hors_delai', compact('factures'));
     }
 }

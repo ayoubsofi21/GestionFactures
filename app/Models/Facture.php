@@ -1,16 +1,19 @@
 <?php
+// app/Models/Facture.php
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\Fournisseur;
 use App\Models\Marche;
+use App\Models\Consultation;
+use Carbon\Carbon;
 
 class Facture extends Model
 {
     use HasFactory;
-    protected $table = 'factures';
+
     protected $fillable = [
         'date_reception_facture',
         'date_facture',
@@ -27,14 +30,26 @@ class Facture extends Model
         'objet_facture',
         'entite',
         'remarque',
+        'payment_delay',
+        'autorisee',
+        'numero_autorisation',
+        // 'is_hors_delai',
     ];
-
+    public function getPaymentDelayAttribute()
+    {
+        return Carbon::parse($this->date_reception_facture)->diffInDays(Carbon::now());
+    }
     public function fournisseur()
     {
         return $this->belongsTo(Fournisseur::class);
-    }    
+    }
     public function marche()
     {
         return $this->belongsTo(Marche::class);
     }
+    public function consultation()
+        {
+            return $this->hasOne(Consultation::class);
+        }
+    // In Facture.php model
 }

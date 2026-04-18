@@ -11,13 +11,18 @@ class FactureAuto extends Model
     use HasFactory;
     protected $table = 'factureautorises';
     protected $fillable = [
-        'facture_num',
+        'numero_facture',
         'scan_facture',
-        'autoristaion_num',
-        'motif'
+        'numero_autorisation',
+        'date_creation',
+        'date_saisie',
+        'motif_rejet'
     ];
-    public function autorisation()
-    {
-        return $this->hasMany(AutoEnregistrement::class);
+    // public function autorisation()
+    // {
+    //     return $this->hasMany(AutoEnregistrement::class);
+    // }
+    public function marche(){
+        return $this->belongsTo(Marche::class);
     }
 }

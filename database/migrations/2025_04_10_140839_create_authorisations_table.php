@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('numero_facture');
             $table->string('scan_facture');
+            $table->date('date_creation');
             $table->timestamps();
         });
     }

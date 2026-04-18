@@ -9,9 +9,9 @@ class AutoEnregistrement extends Model
 {
     use HasFactory;
     protected $table = 'authorisations';
-   protected $fillable = ['numero_facture', 'scan_facture'];
-    // public function authfacture(){
-    //     return $this->belongsTo(FactureAuto::class);
-    // }
+   protected $fillable = ['numero_facture', 'scan_facture', 'date_creation'];
+    public function authfacture(){
+        return $this->belongsTo(FactureAuto::class);
+    }
 
 }

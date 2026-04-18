@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
-            $table->date('date_reception_facture')->nullable();
+            $table->date('date_reception_facture');
             $table->date('date_facture')->nullable();
             $table->string('numero_facture')->nullable();
             $table->string('numero_autorisation_dfccb')->nullable();
@@ -26,9 +26,15 @@ return new class extends Migration
             $table->enum('type_facture', ['M', 'C', 'Ct', 'D'])->nullable(); // M: Marché, C: Consultation, Ct: Contrat, D: Divers
             $table->string('numero_bl_attachement')->nullable();
             $table->string('numero_marche_bc_devis')->nullable();
-            $table->string('objet_facture')->nullable(); // ex : Maintenance des serveurs Power IBM
+            // $table->string('objet_facture')->nullable(); // ex : Maintenance des serveurs Power IBM
             $table->string('entite')->nullable(); // ex : DE
-            // // Relation avec fournisseurs (clé étrangère)
+             // database/migrations/xxxx_xx_xx_create_factures_table.php
+             $table->integer('payment_delay')->default(0);
+            //  afdaffd
+             $table->boolean('autorisee')->default(false);
+             $table->string('numero_autorisation')->nullable();
+            //  afdaffd
+            //  $table->string('statut')->default('consultation'); 
             $table->foreign('fournisseur_id')->references('id')->on('fournisseurs')->onDelete('set null');
              $table->timestamps();
             

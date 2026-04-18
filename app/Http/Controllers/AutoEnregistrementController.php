@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use App\Models\Facture;
 use App\Models\AutoEnregistrement;
+use Illuminate\Support\Carbon;
 
 class AutoEnregistrementController extends Controller
 {
     public function create() {
-
-        
         return view('autorisation.create');
     }
     public function store(Request $request)
@@ -33,9 +31,10 @@ class AutoEnregistrementController extends Controller
     AutoEnregistrement::create([
         'numero_facture' => $request->input('numero_facture'),
         'scan_facture' => $path, // Assure-toi que cette colonne accepte une chaîne (string)
+        'date_creation' => Carbon::now()->format('Y-m-d'),
     ]);
 
-    return redirect()->route('factures.index')->with('success', 'Facture enregistrée avec succès');
+    return redirect()->back()->with('success', 'Facture enregistrée avec succès');
 
 }
     // Afficher le formulaire d’autorisation

@@ -64,7 +64,7 @@ class FournissourController extends Controller
             return view('fournisseur', compact('fournisseurs'));
         }
     
-        return redirect()->route('fournisseur.index');
+        return redirect()->route('fournisseur.create');
     }
     
 
